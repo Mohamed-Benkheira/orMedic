@@ -13,7 +13,8 @@ class Prescription extends Model
 
     protected $fillable = [
         'illness',
-        'more_infos',
+        'more_info',
+        'category',
         'user_id',
     ];
 

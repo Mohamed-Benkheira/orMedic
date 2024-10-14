@@ -11,6 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('prescription_medicine', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('prescription_id')->constrained('prescriptions')->onDelete('cascade');
             $table->foreignId('medicine_id')->constrained('medicines')->onDelete('cascade');
             $table->softDeletes();

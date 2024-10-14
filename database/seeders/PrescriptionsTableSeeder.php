@@ -11,13 +11,13 @@ class PrescriptionsTableSeeder extends Seeder
         Prescription::create([
             'illness' => 'Flu',
             'user_id' => 1,
-            'more_infos' => 'word one word two word three word four word five word six and so on'
+            'more_info' => 'word one word two word three word four word five word six and so on'
         ]);
 
         Prescription::create([
             'illness' => 'Headache',
             'user_id' => 1,
-            'more_infos' => 'word one word two word three word four word five word six and so on'
+            'more_info' => 'word one word two word three word four word five word six and so on'
         ]);
     }
 }

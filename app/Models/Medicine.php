@@ -10,7 +10,7 @@ class Medicine extends Model
 
     protected $fillable = [
         'name',
-        'dosage',
+        'dosage_mg',
         'form',
         'route_of_administration',
         'frequency',

@@ -4,8 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PrescriptionResource\Pages;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use App\Models\Prescription;
 use Filament\Forms\Form;
@@ -29,17 +31,34 @@ class PrescriptionResource extends Resource
                 TextInput::make('illness')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('more_infos')
+                TextInput::make('category')
+                    ->required()
                     ->maxLength(255),
+                RichEditor::make('more_info')->toolbarButtons([
+                    'blockquote',
+                    'bold',
+                    'bulletList',
+                    'heading',
+                    'italic',
+                    'link',
+                    'orderedList',
+                    'redo',
+                    'strike',
+                    'table',
+                    'undo',
+                ])
+                    ->columnSpan(2)->label('More Info'),
                 Hidden::make('user_id')
                     ->default(fn() => auth()->id()),
+                // ------------repeater -------------\\
                 Repeater::make('medicines')
                     ->relationship('medicines')
                     ->schema([
                         TextInput::make('name')
                             ->label('Medicine Name')
+
                             ->required(),
-                        TextInput::make('dosage')
+                        TextInput::make('dosage_mg')
                             ->required(),
                         TextInput::make('form')
                             ->required(),
@@ -47,13 +66,14 @@ class PrescriptionResource extends Resource
                         TextInput::make('frequency'),
                         TextInput::make('duration'),
                         TextInput::make('quantity'),
+                        // -------------- nested repeater-----------------\\
                         Repeater::make('alternatives')
-                            ->relationship('alternatives') // Make sure this relationship is defined in the Medicine model
+                            ->relationship('alternatives')
                             ->schema([
                                 TextInput::make('name')
                                     ->label('Medicine Name')
                                     ->required(),
-                                TextInput::make('dosage')
+                                TextInput::make('dosage_mg')
                                     ->required(),
                                 TextInput::make('form')
                                     ->required(),
@@ -61,17 +81,20 @@ class PrescriptionResource extends Resource
                                 TextInput::make('frequency'),
                                 TextInput::make('duration'),
                                 TextInput::make('quantity'),
-                            ])->columns(2)
+                            ])
+                            ->columns(2)
                             ->columnSpan(3)
-                            ->reorderable(true)
-
-
+                            ->createItemButtonLabel('ou')
+                            ->defaultItems(0)->grid(2)
+                            ->collapsible()->itemLabel(fn(array $state): ?string => $state['name'] ?? null),
                     ])
                     ->columns(3)
                     ->columnSpan(2)
-                    ->minItems(1)
+                    ->reorderableWithButtons()
                     ->reorderable(true)
-                    ->createItemButtonLabel('Add Medicine'),
+                    ->createItemButtonLabel('et')
+                    ->collapsible()->itemLabel(fn(array $state): ?string => $state['name'] . (isset ($state['alternatives']) && count($state['alternatives']) > 0 ? ' or ' . implode(', ', array_column($state['alternatives'], 'name')) : '') ?? null)
+
             ]);
     }
 
@@ -81,17 +104,20 @@ class PrescriptionResource extends Resource
             ->columns([
                 TextColumn::make('illness')
                     ->searchable(),
-                TextColumn::make('more_infos')
-                    ->searchable(),
+                TextColumn::make('category')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('user.name')
                     ->label('Admin Name') // Optional, to customize the column label
                     ->sortable() // To make the column sortable
                     ->searchable(), // To make the column searchable
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Date')
+                    ->dateTimeTooltip()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ,
                 TextColumn::make('updated_at')
+                    ->label('Edited')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -106,7 +132,7 @@ class PrescriptionResource extends Resource
                     ->openUrlInNewTab()
                     ->label('View Medicines')
                     ->icon('heroicon-o-eye')
-                    ->color('primary'),
+                    ->color('success'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -15,40 +15,44 @@ class MedicinesTableSeeder extends Seeder
     {
         Medicine::create([
             'name' => 'Paracetamol',
-            'dosage' => '500mg',
+            'dosage_mg' => 500,
             'form' => 'Tablet',
             'route_of_administration' => 'Oral',
             'frequency' => 'Twice a day',
             'duration' => '5 days',
-            'quantity' => 10
+            'quantity' => 10,
+            'more_info' => 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum '
         ]);
 
         Medicine::create([
             'name' => 'Ibuprofen',
-            'dosage' => '200mg',
+            'dosage_mg' => 200,
             'form' => 'Capsule',
             'route_of_administration' => 'Oral',
             'frequency' => 'Three times a day',
             'duration' => '7 days',
-            'quantity' => 21
+            'quantity' => 21,
+            'more_info' => 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum '
         ]);
         Medicine::create([
             'name' => 'Paracetamol',
-            'dosage' => '200mg',
+            'dosage_mg' => 200,
             'form' => 'Capsule',
             'route_of_administration' => 'Oral',
             'frequency' => 'Three times a day',
             'duration' => '7 days',
-            'quantity' => 21
+            'quantity' => 21,
+            'more_info' => 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum '
         ]);
         Medicine::create([
             'name' => 'lorem',
-            'dosage' => '220mg',
+            'dosage_mg' => 220,
             'form' => 'Capsule',
             'route_of_administration' => 'Oral',
             'frequency' => 'Three times a day',
             'duration' => '7 days',
-            'quantity' => 21
+            'quantity' => 21,
+            'more_info' => 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum '
         ]);
     }
 }

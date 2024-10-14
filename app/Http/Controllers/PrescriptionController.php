@@ -10,7 +10,8 @@ class PrescriptionController extends Controller
 {
     public function view($id)
     {
-        $prescription = Prescription::with('medicines')->findOrFail($id);
+        $prescription = Prescription::with(['medicines.alternatives'])->findOrFail($id);
+
         return view('dashboard.prescription', compact('prescription'));
     }
 }

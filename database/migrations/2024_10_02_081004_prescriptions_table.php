@@ -13,7 +13,8 @@ return new class extends Migration {
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->id();
             $table->string('illness'); // Illness name as a string
-            $table->string('more_infos')->nullable();
+            $table->string('category')->nullable();
+            $table->longText('more_info')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Reference to admin who created it
             $table->softDeletes();
 

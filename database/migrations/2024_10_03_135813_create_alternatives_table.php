@@ -13,12 +13,13 @@ return new class extends Migration {
         Schema::create('alternatives', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('dosage')->nullable();
+            $table->string('dosage_mg')->nullable();
             $table->string('form')->nullable();
             $table->string('route_of_administration')->nullable();
             $table->string('frequency')->nullable();
             $table->string('duration')->nullable();
             $table->string('quantity')->nullable();
+            $table->mediumText('more_info')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
