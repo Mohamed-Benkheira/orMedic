@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\PrescriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,14 +26,18 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::get('/dashboard/details/{id}', [PrescriptionController::class, 'details'] );
+    Route::get('/dashboard/{id?}', [PrescriptionController::class, 'dashboard'] )->name('dashboard');
+    // Route::get('/dashboard/prescriptions/{id}', [PrescriptionController::class, 'show'])->name('dashboard.prescription.view');
+    Route::get('/prescriptions/{id}/view', [PrescriptionController::class, 'view'])->name('prescription.view');
 });
 
 require __DIR__.'/auth.php';
